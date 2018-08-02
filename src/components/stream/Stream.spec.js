@@ -1,5 +1,8 @@
-import Stream from './Stream';
-import { shallow } from 'enzyme';
+import Stream from './presenter';
+import { shallow, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16'
+
+configure({adapter: new Adapter()})
 
 describe('Stream', () => {
 

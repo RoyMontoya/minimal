@@ -1,18 +1,23 @@
 import React from 'react';
 import { expect } from 'chai';
-import jsdom from 'jsdom';
-const {JSDOM} = jsdom;
-const {document} = (new JSDOM('<!doctype html><html><body></body></html>')).window;
-const win = document.defaultView;
+import { JSDOM } from 'jsdom';
 
-global.document = document;
-global.window = win;
+const doc = new JSDOM('<html><body></body></html>');
+const { window } = doc;
 
-Object.keys(window).forEach((key) => {
-  if (!(key in global)) {
-    global[key] = window[key];
-  }
-});
+function copyProps(src, target) {
+const props = Object.getOwnPropertyNames(src)
+.filter(prop => typeof target[prop] === 'undefined')
+.map(prop => Object.getOwnPropertyDescriptor(src, prop));
+Object.defineProperties(target, props);
+}
+
+global.window = window;
+global.document = window.document;
+global.navigator = {
+userAgent: 'node.js',
+};
+copyProps(window, global);
 
 global.React = React;
 global.expect = expect;
