@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Stream from './components/Stream';
+import configureStore from './store/configureStore';
+import * as actions from './actions';
 
 const tracks = [
   {
@@ -11,8 +13,11 @@ const tracks = [
   }
 ];
 
+const store = configureStore();
+store.dispatch(actions.setTracks(tracks));
+
 ReactDOM.render(
-    <Stream tracks={tracks} />,
+    <Stream />,
   document.getElementById('app')
 );
 
